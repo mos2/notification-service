@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: NotificationService
+      app: notification-service
   template:
     metadata:
       labels:
-        app: NotificationService
+        app: notification-service
     spec:
       containers:
       - name: notification-service
