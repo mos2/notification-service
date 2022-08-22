@@ -25,7 +25,7 @@ func getClient(config *oauth2.Config) *http.Client {
 	// The file token.json stores the user's access and refresh tokens, and is
 	// created automatically when the authorization flow completes for the first
 	// time.
-	tokFile := "/etc/creds/token.json"
+	tokFile := "/etc/creds/tokens/token.json"
 	tok, err := tokenFromFile(tokFile)
 	if err != nil {
 		tok = getTokenFromWeb(config)
@@ -78,7 +78,7 @@ func saveToken(path string, token *oauth2.Token) {
 func main() {
 
 	ctx := context.Background()
-	b, err := ioutil.ReadFile("/etc/creds/credentials.json")
+	b, err := ioutil.ReadFile("/etc/creds/oauth/credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
