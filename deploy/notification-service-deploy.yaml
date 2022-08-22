@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: NotificationService
+  labels:
+    app: NotificationService
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: NotificationService
+  template:
+    metadata:
+      labels:
+        app: NotificationService
+    spec:
+      containers:
+      - name: notification-service
+        image: mojjos1/notification-service:0.9.0
+        ports:
+        - containerPort: 8080
