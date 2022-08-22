@@ -22,3 +22,12 @@ spec:
         image: mjjos1/notification-service:0.9.1
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: gmail-service
+          mountPath: "/"
+          readOnly: true
+      volumes:
+      - name: gmail-service
+        secret:
+          secretName: gmail-service-secret
+          optional: false
