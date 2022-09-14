@@ -18,6 +18,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type EmailMetadata struct {
+	Message string `json:"message,omitempty"`
+}
+
 var gmailSvc *gmail.Service
 
 // Retrieve a token, saves the token, then returns the generated client.
@@ -101,13 +105,19 @@ func main() {
 
 func postMessageToAddress(c *gin.Context) {
 	fmt.Println("Sending mail...")
+	messageText := "Hello Devcon audience!"
 	address := c.Param("address")
+
+	var emailMetadata EmailMetadata
+	c.ShouldBindJSON(&emailMetadata)
+	if emailMetadata.Message != "" {
+		messageText = emailMetadata.Message
+	}
 
 	var message gmail.Message
 	toAddress := "To: " + address + "\r\n"
 	subject := "Subject: Devcon" + "\n"
 	mime := "MIME-version: 1.0;\nContent-Type: text/plain; charset=\"UTF-8\";\n\n"
-	messageText := "Hello Devcon audience!"
 	formattedMessage := []byte(toAddress + subject + mime + "\n" + messageText)
 
 	message.Raw = base64.URLEncoding.EncodeToString(formattedMessage)
