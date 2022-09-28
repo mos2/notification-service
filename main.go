@@ -29,7 +29,7 @@ func getClient(config *oauth2.Config) *http.Client {
 	// The file token.json stores the user's access and refresh tokens, and is
 	// created automatically when the authorization flow completes for the first
 	// time.
-	tokFile := "/etc/creds/tokens/token.json"
+	tokFile := "token.json"
 	tok, err := tokenFromFile(tokFile)
 	if err != nil {
 		tok = getTokenFromWeb(config)
@@ -82,7 +82,7 @@ func saveToken(path string, token *oauth2.Token) {
 func main() {
 
 	ctx := context.Background()
-	b, err := ioutil.ReadFile("/etc/creds/oauth/credentials.json")
+	b, err := ioutil.ReadFile("credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
@@ -125,9 +125,12 @@ func postMessageToAddress(c *gin.Context) {
 	// Send the message
 	_, err := gmailSvc.Users.Messages.Send("me", &message).Do()
 	if err != nil {
-		log.Fatalf("Unable to send message: %v", err)
+		log.Printf("Unable to send message: %v", err)
+		c.String(http.StatusBadRequest, "Unable to send message")
+		return
 	}
 
 	fmt.Println("Message sent")
+	c.String(http.StatusOK, "Message sent successfully!")
 
 }
