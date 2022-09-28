@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: notification-service
-        image: mjjos1/notification-service:0.9.6
+        image: mjjos1/notification-service:0.9.7
         ports:
         - containerPort: 8080
         volumeMounts:
