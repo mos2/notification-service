@@ -1,37 +1,55 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Devcon Notification Service",
-      "version": "0.9.7"
-    },
-    "paths": {
-      "/process": {
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DevCon Notification Service",
+    "version": "0.9.7"
+  },
+  "paths": {
+    "/message/{email-address}": {
+      "parameters": [
+        {
+          "description": "Target email address to send notification to",
+          "in": "path",
+          "name": "email-address",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "Send an email notification to a specified address",
+        "operationId": "post-message-email-address",
         "parameters": [],
-        "post": {
-          "description": "Process the inventory in a single XLS file",
-          "operationId": "post-process",
-          "parameters": [
-            {
-              "description": "Optional email address to send process result report",
-              "in": "query",
-              "name": "email",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "example-0001": {
+                  "value": {
+                    "message": "File successfully processed!"
+                  }
+                }
+              },
               "schema": {
-                "type": "string"
+                "properties": {},
+                "type": "object"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Processing completed successfully"
-            }
-          },
-          "summary": "Process the inventory in an XLS file"
-        }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message successfully sent"
+          }
+        },
+        "summary": "Send message"
       }
-    },
-    "servers": [
-      {
-        "url": "http://169.51.207.150:30080/"
-      }
-    ]
-  }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://169.51.207.150:30080"
+    }
+  ]
+}
